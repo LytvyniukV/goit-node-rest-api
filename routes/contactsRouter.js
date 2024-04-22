@@ -9,14 +9,14 @@ import {
 
 const contactsRouter = express.Router();
 
-contactsRouter.get("/", getAllContacts);
+contactsRouter.get("/api/contacts", getAllContacts);
 
-contactsRouter.get("/:id", getOneContact);
+contactsRouter.get("/api/contacts/:id", getOneContact);
 
-contactsRouter.delete("/:id", deleteContact);
+contactsRouter.delete("/api/contacts/:id", deleteContact);
 
-contactsRouter.post("/", createContact);
+contactsRouter.post("/api/contacts", createContact);
 
-contactsRouter.put("/:id", updateContact);
+contactsRouter.put("/api/contacts/:id", updateContact);
 
 export default contactsRouter;

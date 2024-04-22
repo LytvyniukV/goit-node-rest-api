@@ -1,11 +1,66 @@
-import contactsService from "../services/contactsServices.js";
+import {
+  listContacts,
+  getContactById,
+  removeContact,
+  addContact,
+} from "../services/contactsServices.js";
 
-export const getAllContacts = (req, res) => {};
+export const getAllContacts = async (req, res) => {
+  try {
+    const contacts = await listContacts();
+    res.json({
+      status: "success",
+      code: 200,
+      data: { contacts },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-export const getOneContact = (req, res) => {};
+export const getOneContact = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const contact = await getContactById(id);
+    res.json({
+      status: "success",
+      code: 200,
+      data: { contact },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-export const deleteContact = (req, res) => {};
+export const deleteContact = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deletedContact = await removeContact(id);
+    if (deletedContact) {
+      res.json({
+        status: "success",
+        code: 200,
+        data: { deletedContact },
+      });
+    } else {
+      res.json({
+        code: 404,
+        message: "Not found",
+      });
+    }
+  } catch (error) {}
+};
 
-export const createContact = (req, res) => {};
+export const createContact = async (req, res) => {
+  try {
+    const { name, email, phone } = req.body;
+    const newContact = await addContact(name, email, phone);
+    res.json({
+      status: "created",
+      code: 201,
+      data: { newContact },
+    });
+  } catch (error) {}
+};
 
 export const updateContact = (req, res) => {};
