@@ -8,7 +8,8 @@ import {
 export const getAllContacts = async (req, res) => {
   try {
     const contacts = await listContacts();
-    res.json({
+
+    res.send({
       status: "success",
       code: 200,
       data: { contacts },
@@ -22,7 +23,7 @@ export const getOneContact = async (req, res) => {
   try {
     const { id } = req.params;
     const contact = await getContactById(id);
-    res.json({
+    res.send({
       status: "success",
       code: 200,
       data: { contact },
@@ -37,13 +38,13 @@ export const deleteContact = async (req, res) => {
     const { id } = req.params;
     const deletedContact = await removeContact(id);
     if (deletedContact) {
-      res.json({
+      res.send({
         status: "success",
         code: 200,
         data: { deletedContact },
       });
     } else {
-      res.json({
+      res.send({
         code: 404,
         message: "Not found",
       });
@@ -55,7 +56,7 @@ export const createContact = async (req, res) => {
   try {
     const { name, email, phone } = req.body;
     const newContact = await addContact(name, email, phone);
-    res.json({
+    res.send({
       status: "created",
       code: 201,
       data: { newContact },

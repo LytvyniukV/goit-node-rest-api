@@ -1,7 +1,7 @@
 import { nanoid } from "nanoid";
 import * as fs from "node:fs/promises";
 import path from "node:path";
-const contactsPath = path.resolve("bd", "contacts.json");
+const contactsPath = path.resolve("db", "contacts.json");
 
 const writeContacts = (contacts) => {
   return fs.writeFile(contactsPath, JSON.stringify(contacts, undefined, 2));
