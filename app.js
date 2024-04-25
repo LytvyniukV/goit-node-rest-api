@@ -14,7 +14,6 @@ app.use("/api/contacts", contactsRouter);
 
 app.use((_, res) => {
   res.status(404).json({ message: "Route not found" });
-  next();
 });
 
 app.use((err, req, res, next) => {
