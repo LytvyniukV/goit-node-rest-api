@@ -1,11 +1,11 @@
+import e from "express";
 import HttpError from "../helpers/HttpError.js";
-import validateBody from "../helpers/validateBody.js";
-import { createContactSchema } from "../schemas/contactsSchema.js";
 import {
   listContacts,
   getContactById,
   removeContact,
   addContact,
+  updContact,
 } from "../services/contactsServices.js";
 
 export const getAllContacts = async (req, res, next) => {
@@ -78,4 +78,24 @@ export const createContact = async (req, res, next) => {
   }
 };
 
-export const updateContact = (req, res) => {};
+export const updateContact = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const updatedContact = await updContact(id, req.body);
+    console.log(updatedContact);
+    if (updatedContact) {
+      res.status(200).json({
+        status: "success",
+        code: 200,
+        data: { updatedContact },
+      });
+    } else {
+      const err = HttpError(404);
+      res.status(err.status).json({
+        message: err.message,
+      });
+    }
+  } catch (error) {
+    next(HttpError(500));
+  }
+};
