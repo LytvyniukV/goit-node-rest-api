@@ -9,7 +9,6 @@ dotenv.config();
 const PORT = process.env.PORT || 3000;
 const uriDb = process.env.DB_HOST;
 const app = express();
-
 app.use(logger("dev"));
 app.use(cors());
 app.use(express.json());

@@ -1,4 +1,3 @@
-import e from "express";
 import HttpError from "../helpers/HttpError.js";
 import {
   listContacts,
@@ -14,10 +13,10 @@ export const getAllContacts = async (req, res, next) => {
     res.json({
       status: "success",
       code: 200,
-      data: { contacts },
+      data: contacts,
     });
   } catch (error) {
-    next(HttpError(error));
+    next(HttpError(500));
   }
 };
 
@@ -29,7 +28,7 @@ export const getOneContact = async (req, res, next) => {
       res.json({
         status: "success",
         code: 200,
-        data: { contact },
+        data: contact,
       });
     } else {
       const err = HttpError(404);
@@ -38,7 +37,7 @@ export const getOneContact = async (req, res, next) => {
       });
     }
   } catch (error) {
-    next(HttpError(error));
+    next(HttpError(500));
   }
 };
 
@@ -50,7 +49,7 @@ export const deleteContact = async (req, res, next) => {
       res.json({
         status: "success",
         code: 200,
-        data: { deletedContact },
+        data: deletedContact,
       });
     } else {
       const err = HttpError(404);
@@ -59,7 +58,7 @@ export const deleteContact = async (req, res, next) => {
       });
     }
   } catch (error) {
-    next(HttpError(error));
+    next(HttpError(500));
   }
 };
 
@@ -70,10 +69,10 @@ export const createContact = async (req, res, next) => {
     res.status(201).json({
       status: "created",
       code: 201,
-      data: { newContact },
+      data: newContact,
     });
   } catch (error) {
-    next(HttpError(error));
+    next(HttpError(500));
   }
 };
 
@@ -81,12 +80,11 @@ export const updateContact = async (req, res, next) => {
   try {
     const { id } = req.params;
     const updatedContact = await updContact(id, req.body);
-    console.log(updatedContact);
     if (updatedContact) {
       res.status(200).json({
         status: "success",
         code: 200,
-        data: { updatedContact },
+        data: updatedContact,
       });
     } else {
       const err = HttpError(404);
@@ -95,6 +93,27 @@ export const updateContact = async (req, res, next) => {
       });
     }
   } catch (error) {
-    next(HttpError(error));
+    next(HttpError(500));
+  }
+};
+
+export const updateFavoriteContact = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const updatedContact = await updContact(id, req.body);
+    if (updatedContact) {
+      res.status(200).json({
+        status: "success",
+        code: 200,
+        data: updatedContact,
+      });
+    } else {
+      const err = HttpError(404);
+      res.status(err.status).json({
+        message: err.message,
+      });
+    }
+  } catch (error) {
+    next(HttpError(500));
   }
 };
