@@ -11,14 +11,13 @@ import {
 export const getAllContacts = async (req, res, next) => {
   try {
     const contacts = await listContacts();
-
     res.json({
       status: "success",
       code: 200,
       data: { contacts },
     });
   } catch (error) {
-    next(HttpError(500));
+    next(HttpError(error));
   }
 };
 
@@ -39,7 +38,7 @@ export const getOneContact = async (req, res, next) => {
       });
     }
   } catch (error) {
-    next(HttpError(500));
+    next(HttpError(error));
   }
 };
 
@@ -60,7 +59,7 @@ export const deleteContact = async (req, res, next) => {
       });
     }
   } catch (error) {
-    next(HttpError(500));
+    next(HttpError(error));
   }
 };
 
@@ -74,7 +73,7 @@ export const createContact = async (req, res, next) => {
       data: { newContact },
     });
   } catch (error) {
-    next(HttpError(500));
+    next(HttpError(error));
   }
 };
 
@@ -96,6 +95,6 @@ export const updateContact = async (req, res, next) => {
       });
     }
   } catch (error) {
-    next(HttpError(500));
+    next(HttpError(error));
   }
 };
