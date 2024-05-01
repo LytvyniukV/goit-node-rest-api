@@ -2,7 +2,7 @@ import express from "express";
 import logger from "morgan";
 import cors from "cors";
 import mongoose from "mongoose";
-import contactsRouter from "./routes/contactsRouter.js";
+import contactsRouter from "./routes/contacts.js";
 import dotenv from "dotenv";
 
 dotenv.config();

@@ -1,4 +1,4 @@
-import { Contact } from "../schemas/dbSchema.js";
+import { Contact } from "../models/contacts.js";
 
 const listContacts = async () => {
   return Contact.find();

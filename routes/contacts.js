@@ -6,13 +6,13 @@ import {
   createContact,
   updateContact,
   updateFavoriteContact,
-} from "../controllers/contactsControllers.js";
+} from "../controllers/contacts.js";
 import validateBody from "../helpers/validateBody.js";
 import {
   createContactSchema,
   updateContactSchema,
   updateFavoriteContactSchema,
-} from "../schemas/contactsSchema.js";
+} from "../schemas/contacts.js";
 
 const contactsRouter = express.Router();
 

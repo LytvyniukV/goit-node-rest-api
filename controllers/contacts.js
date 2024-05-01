@@ -5,7 +5,7 @@ import {
   removeContact,
   addContact,
   updContact,
-} from "../services/contactsServices.js";
+} from "../services/contacts.js";
 
 export const getAllContacts = async (req, res, next) => {
   try {
@@ -15,7 +15,7 @@ export const getAllContacts = async (req, res, next) => {
       data: contacts,
     });
   } catch (error) {
-    next(HttpError(error));
+    next(error);
   }
 };
 
@@ -30,7 +30,7 @@ export const getOneContact = async (req, res, next) => {
       data: contact,
     });
   } catch (error) {
-    next(HttpError(error));
+    next(error);
   }
 };
 
@@ -45,7 +45,7 @@ export const deleteContact = async (req, res, next) => {
       data: deletedContact,
     });
   } catch (error) {
-    next(HttpError(error));
+    next(error);
   }
 };
 
@@ -58,7 +58,7 @@ export const createContact = async (req, res, next) => {
       data: newContact,
     });
   } catch (error) {
-    next(HttpError(error));
+    next(error);
   }
 };
 
@@ -73,7 +73,7 @@ export const updateContact = async (req, res, next) => {
       data: updatedContact,
     });
   } catch (error) {
-    next(HttpError(error));
+    next(error);
   }
 };
 
@@ -88,6 +88,6 @@ export const updateFavoriteContact = async (req, res, next) => {
       data: updatedContact,
     });
   } catch (error) {
-    next(HttpError(error));
+    next(error);
   }
 };
