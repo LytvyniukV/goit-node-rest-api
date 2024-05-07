@@ -1,4 +1,3 @@
-import e from "express";
 import HttpError from "../helpers/HttpError.js";
 import {
   listContacts,
@@ -6,19 +5,17 @@ import {
   removeContact,
   addContact,
   updContact,
-} from "../services/contactsServices.js";
+} from "../services/contacts.js";
 
 export const getAllContacts = async (req, res, next) => {
   try {
     const contacts = await listContacts();
-
     res.json({
       status: "success",
-      code: 200,
-      data: { contacts },
+      data: contacts,
     });
   } catch (error) {
-    next(HttpError(500));
+    next(error);
   }
 };
 
@@ -26,20 +23,14 @@ export const getOneContact = async (req, res, next) => {
   try {
     const { id } = req.params;
     const contact = await getContactById(id);
-    if (contact) {
-      res.json({
-        status: "success",
-        code: 200,
-        data: { contact },
-      });
-    } else {
-      const err = HttpError(404);
-      res.status(err.status).json({
-        message: err.message,
-      });
-    }
+    if (!contact) throw HttpError(404, "Contact not found");
+
+    res.json({
+      status: "success",
+      data: contact,
+    });
   } catch (error) {
-    next(HttpError(500));
+    next(error);
   }
 };
 
@@ -47,20 +38,14 @@ export const deleteContact = async (req, res, next) => {
   try {
     const { id } = req.params;
     const deletedContact = await removeContact(id);
-    if (deletedContact) {
-      res.json({
-        status: "success",
-        code: 200,
-        data: { deletedContact },
-      });
-    } else {
-      const err = HttpError(404);
-      res.status(err.status).json({
-        message: err.message,
-      });
-    }
+    if (!deletedContact) throw HttpError(404, "Contact not found");
+
+    res.json({
+      status: "success",
+      data: deletedContact,
+    });
   } catch (error) {
-    next(HttpError(500));
+    next(error);
   }
 };
 
@@ -70,11 +55,10 @@ export const createContact = async (req, res, next) => {
     const newContact = await addContact(name, email, phone);
     res.status(201).json({
       status: "created",
-      code: 201,
-      data: { newContact },
+      data: newContact,
     });
   } catch (error) {
-    next(HttpError(500));
+    next(error);
   }
 };
 
@@ -82,20 +66,28 @@ export const updateContact = async (req, res, next) => {
   try {
     const { id } = req.params;
     const updatedContact = await updContact(id, req.body);
-    console.log(updatedContact);
-    if (updatedContact) {
-      res.status(200).json({
-        status: "success",
-        code: 200,
-        data: { updatedContact },
-      });
-    } else {
-      const err = HttpError(404);
-      res.status(err.status).json({
-        message: err.message,
-      });
-    }
+    if (!updatedContact) throw HttpError(404, "Contact not found");
+
+    res.status(200).json({
+      status: "success",
+      data: updatedContact,
+    });
   } catch (error) {
-    next(HttpError(500));
+    next(error);
+  }
+};
+
+export const updateFavoriteContact = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const updatedContact = await updContact(id, req.body);
+    if (!updatedContact) throw HttpError(404, "Contact not found");
+
+    res.status(200).json({
+      status: "success",
+      data: updatedContact,
+    });
+  } catch (error) {
+    next(error);
   }
 };
