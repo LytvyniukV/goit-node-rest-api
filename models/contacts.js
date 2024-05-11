@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-
+import paginate from "mongoose-paginate-v2";
 const contacts = new Schema(
   {
     name: {
@@ -16,7 +16,12 @@ const contacts = new Schema(
       type: Boolean,
       default: false,
     },
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: "user",
+    },
   },
   { versionKey: false, timestamps: true }
 );
-export const Contact = model("contacts", contacts);
+contacts.plugin(paginate);
+export const Contact = model("Contact", contacts);
