@@ -16,18 +16,10 @@ const register = async (req, res, next) => {
       email,
       password: passwordHash,
     });
-    const token = jwt.sign({ id: user._id }, process.env.SECRET_KEY, {
-      expiresIn: "3h",
-    });
-    await User.findByIdAndUpdate(user._id, { token });
     res.status(201).json({
-      status: "created",
-      data: {
-        token,
-        user: {
-          email: user.email,
-          subscription: user.subscription,
-        },
+      user: {
+        email: user.email,
+        subscription: user.subscription,
       },
     });
   } catch (error) {
@@ -51,13 +43,10 @@ const login = async (req, res, next) => {
 
     await User.findByIdAndUpdate(user._id, { token });
     res.status(200).json({
-      status: "success",
-      data: {
-        token,
-        user: {
-          email: user.email,
-          subscription: user.subscription,
-        },
+      token,
+      user: {
+        email: user.email,
+        subscription: user.subscription,
       },
     });
   } catch (error) {
@@ -78,10 +67,8 @@ const current = async (req, res, next) => {
   try {
     const user = await User.findById(req.user.id);
     res.status(200).json({
-      data: {
-        email: user.email,
-        subscription: user.subscription,
-      },
+      email: user.email,
+      subscription: user.subscription,
     });
   } catch (error) {
     next(error);
@@ -94,11 +81,8 @@ const updSubscription = async (req, res, next) => {
       new: true,
     });
     res.status(200).json({
-      status: "success",
-      data: {
-        email: user.email,
-        subscription: user.subscription,
-      },
+      email: user.email,
+      subscription: user.subscription,
     });
   } catch (error) {
     next(error);

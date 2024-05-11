@@ -7,7 +7,7 @@ export const getAllContacts = async (req, res, next) => {
 
     const options = {
       page: req.query.page || 1,
-      limit: req.query.limit || 2,
+      limit: req.query.limit || 3,
     };
 
     if (favorite) {
@@ -19,7 +19,6 @@ export const getAllContacts = async (req, res, next) => {
         options
       );
       res.json({
-        status: "success",
         data: contacts,
       });
     }
@@ -31,7 +30,6 @@ export const getAllContacts = async (req, res, next) => {
       options
     );
     res.json({
-      status: "success",
       data: contacts,
     });
   } catch (error) {
@@ -46,7 +44,6 @@ export const getOneContact = async (req, res, next) => {
     if (!contact) throw HttpError(404, "Contact not found");
 
     res.json({
-      status: "success",
       data: contact,
     });
   } catch (error) {
@@ -64,7 +61,6 @@ export const deleteContact = async (req, res, next) => {
     if (!deletedContact) throw HttpError(404, "Contact not found");
 
     res.json({
-      status: "success",
       data: deletedContact,
     });
   } catch (error) {
@@ -83,7 +79,6 @@ export const createContact = async (req, res, next) => {
     };
     const newContact = await Contact.create(contact);
     res.status(201).json({
-      status: "created",
       data: newContact,
     });
   } catch (error) {
@@ -102,7 +97,6 @@ export const updateContact = async (req, res, next) => {
     if (!updatedContact) throw HttpError(404, "Contact not found");
 
     res.status(200).json({
-      status: "success",
       data: updatedContact,
     });
   } catch (error) {
@@ -121,7 +115,6 @@ export const updateFavoriteContact = async (req, res, next) => {
     if (!updatedContact) throw HttpError(404, "Contact not found");
 
     res.status(200).json({
-      status: "success",
       data: updatedContact,
     });
   } catch (error) {

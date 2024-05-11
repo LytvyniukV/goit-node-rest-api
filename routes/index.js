@@ -6,6 +6,6 @@ import { validateToken } from "../helpers/validateToken.js";
 const router = express.Router();
 
 router.use("/users", authRouter);
-router.use("/contacts", validateToken, contactsRouter);
+router.use("/api/contacts", validateToken, contactsRouter);
 
 export default router;
