@@ -9,12 +9,13 @@ export const validateToken = (req, res, next) => {
   const [bearer, token] = authHeader.split(" ", 2);
   if (bearer !== "Bearer") throw HttpError(401);
 
-  jwt.verify(token, process.env.SECRET_KEY, async (err, decode) => {
+  jwt.verify(token, process.env.SECRET_KEY, verifyCallback);
+
+  async function verifyCallback(err, decode) {
     if (err) next(HttpError(401));
 
     try {
       const user = await User.findById(decode.id);
-      console.log(user);
       if (!user || user.token !== token) throw HttpError(401);
 
       req.user = {
@@ -26,5 +27,5 @@ export const validateToken = (req, res, next) => {
     } catch (error) {
       next(error);
     }
-  });
+  }
 };
