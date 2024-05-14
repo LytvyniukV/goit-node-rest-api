@@ -4,7 +4,7 @@ import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import router from "./routes/index.js";
-
+import path from "node:path";
 dotenv.config();
 const PORT = process.env.PORT || 3000;
 const uriDb = process.env.DB_HOST;
@@ -13,6 +13,7 @@ app.use(logger("dev"));
 app.use(cors());
 app.use(express.json());
 
+app.use("/avatars", express.static(path.resolve("public/avatars")));
 app.use("/", router);
 
 app.use((_, res) => {
