@@ -2,8 +2,8 @@ import express from "express";
 import logger from "morgan";
 import cors from "cors";
 import mongoose from "mongoose";
-import contactsRouter from "./routes/contacts.js";
 import dotenv from "dotenv";
+import router from "./routes/index.js";
 
 dotenv.config();
 const PORT = process.env.PORT || 3000;
@@ -13,7 +13,7 @@ app.use(logger("dev"));
 app.use(cors());
 app.use(express.json());
 
-app.use("/api/contacts", contactsRouter);
+app.use("/", router);
 
 app.use((_, res) => {
   res.status(404).json({ message: "Route not found" });
