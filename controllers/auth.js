@@ -11,11 +11,11 @@ const register = async (req, res, next) => {
     if (oldUser) throw HttpError(409, "Email in use");
 
     const passwordHash = await bcrypt.hash(password, 10);
-    const avatar = gravatar.url(email, { protocol: "https" });
+    const avatar = gravatar.url(email, { protocol: "https", size: 250 });
     const user = await User.create({
       email,
       password: passwordHash,
-      avatar: avatar,
+      avatarURL: avatar,
     });
     res.status(201).json({
       user: {

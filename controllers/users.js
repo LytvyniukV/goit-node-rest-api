@@ -19,9 +19,9 @@ const updSubscription = async (req, res, next) => {
 const getAvatar = async (req, res, next) => {
   try {
     const user = await User.findById(req.user.id);
-    if (!user.avatar) throw HttpError(404, "Avatar not found");
+    if (!user.avatarURL) throw HttpError(404, "Avatar not found");
 
-    res.sendFile(path.resolve("public/avatars", user.avatar));
+    res.sendFile(path.resolve("public/avatars", user.avatarURL));
   } catch (error) {
     next(error);
   }
@@ -36,13 +36,13 @@ const uploadAvatar = async (req, res, next) => {
 
     const user = await User.findByIdAndUpdate(
       req.user.id,
-      { avatar: req.file.filename },
+      { avatarURL: req.file.filename },
       { new: true }
     );
     if (!user) throw HttpError(404);
 
     res.json({
-      avatar: user.avatar,
+      avatar: user.avatarURL,
     });
   } catch (error) {
     next(error);
@@ -57,7 +57,7 @@ const updateAvatar = async (req, res, next) => {
     );
     const user = await User.findByIdAndUpdate(
       req.user.id,
-      { avatar: req.file.filename },
+      { avatarURL: req.file.filename },
       {
         new: true,
       }
@@ -66,7 +66,7 @@ const updateAvatar = async (req, res, next) => {
       user: {
         email: user.email,
         subscription: user.subscription,
-        avatar: user.avatar,
+        avatar: user.avatarURL,
       },
     });
   } catch (error) {

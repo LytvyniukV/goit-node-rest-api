@@ -11,7 +11,7 @@ const storage = multer.diskStorage({
     const basename = path.basename(file.originalname, extname);
     const suffix = crypto.randomUUID();
 
-    cb(null, `${basename}-${suffix}${extname}`);
+    cb(null, `avatars/${basename}-${suffix}${extname}`);
   },
 });
 const uploadAvatarMiddleware = multer({ storage });
