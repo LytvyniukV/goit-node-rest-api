@@ -8,14 +8,14 @@ const register = async (req, res, next) => {
 
   try {
     const oldUser = await User.findOne({ email });
-    console.log(oldUser);
     if (oldUser) throw HttpError(409, "Email in use");
 
     const passwordHash = await bcrypt.hash(password, 10);
-    const avatar = gravatar.url(email);
+    const avatar = gravatar.url(email, { protocol: "https" });
     const user = await User.create({
       email,
       password: passwordHash,
+      avatar: avatar,
     });
     res.status(201).json({
       user: {

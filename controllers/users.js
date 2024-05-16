@@ -42,6 +42,27 @@ const uploadAvatar = async (req, res, next) => {
     if (!user) throw HttpError(404);
 
     res.json({
+      avatar: user.avatar,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const updateAvatar = async (req, res, next) => {
+  try {
+    await fs.rename(
+      req.file.path,
+      path.resolve("public/avatars", req.file.filename)
+    );
+    const user = await User.findByIdAndUpdate(
+      req.user.id,
+      { avatar: req.file.filename },
+      {
+        new: true,
+      }
+    );
+    res.status(200).json({
       user: {
         email: user.email,
         subscription: user.subscription,
@@ -52,4 +73,4 @@ const uploadAvatar = async (req, res, next) => {
     next(error);
   }
 };
-export { updSubscription, getAvatar, uploadAvatar };
+export { updSubscription, getAvatar, uploadAvatar, updateAvatar };
