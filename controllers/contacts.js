@@ -54,7 +54,7 @@ export const getOneContact = async (req, res, next) => {
 export const deleteContact = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const deletedContact = await Contact.findByIdAndDelete({
+    const deletedContact = await Contact.findOneAndDelete({
       _id: id,
       owner: req.user.id,
     });
@@ -89,7 +89,7 @@ export const createContact = async (req, res, next) => {
 export const updateContact = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const updatedContact = await Contact.findByIdAndUpdate(
+    const updatedContact = await Contact.findOneAndUpdate(
       { _id: id, owner: req.user.id },
       req.body,
       { new: true }
