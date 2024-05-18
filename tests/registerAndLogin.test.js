@@ -22,7 +22,7 @@ describe("register", () => {
       password: "Test123",
     });
 
-    const response = await supertest(app).post("/auth/register").send({
+    const response = await supertest(app).post("/register").send({
       email: "testUser2@gmail.com",
       password: "Test123",
     });
@@ -31,7 +31,7 @@ describe("register", () => {
   });
 
   it("should register new user", async () => {
-    const response = await supertest(app).post("/auth/register").send({
+    const response = await supertest(app).post("/register").send({
       email: "testUser1@gmail.com",
       password: "Test123",
     });
@@ -40,7 +40,7 @@ describe("register", () => {
     expect(response.body.user.email).toBe("testUser1@gmail.com");
   });
   it("should login user", async () => {
-    const response = await supertest(app).post("/auth/login").send({
+    const response = await supertest(app).post("/login").send({
       email: "testUser1@gmail.com",
       password: "Test123",
     });

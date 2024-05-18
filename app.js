@@ -11,7 +11,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/avatars", express.static(path.resolve("public/avatars")));
-app.use("/", router);
+app.use("/api", router);
 
 app.use((_, res) => {
   res.status(404).json({ message: "Route not found" });
