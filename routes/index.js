@@ -6,5 +6,5 @@ import { validateToken } from "../helpers/validateToken.js";
 const router = express.Router();
 
 router.use("/contacts", validateToken, contactsRouter);
-router.use("/users", validateToken, usersRouter);
+router.use("/users", usersRouter);
 export default router;

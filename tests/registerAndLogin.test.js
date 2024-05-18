@@ -17,12 +17,12 @@ describe("register", () => {
   });
 
   it("should not register the same user 2 times", async () => {
-    await supertest(app).post("/auth/register").send({
+    await supertest(app).post("/api/users/register").send({
       email: "testUser2@gmail.com",
       password: "Test123",
     });
 
-    const response = await supertest(app).post("/register").send({
+    const response = await supertest(app).post("/api/users/register").send({
       email: "testUser2@gmail.com",
       password: "Test123",
     });
@@ -31,7 +31,7 @@ describe("register", () => {
   });
 
   it("should register new user", async () => {
-    const response = await supertest(app).post("/register").send({
+    const response = await supertest(app).post("/api/users/register").send({
       email: "testUser1@gmail.com",
       password: "Test123",
     });
@@ -40,7 +40,7 @@ describe("register", () => {
     expect(response.body.user.email).toBe("testUser1@gmail.com");
   });
   it("should login user", async () => {
-    const response = await supertest(app).post("/login").send({
+    const response = await supertest(app).post("/api/users/login").send({
       email: "testUser1@gmail.com",
       password: "Test123",
     });

@@ -20,15 +20,16 @@ import { validateToken } from "../helpers/validateToken.js";
 const usersRouter = express.Router();
 usersRouter.post("/register", validateBody(authSchema), register);
 usersRouter.post("/login", validateBody(authSchema), login);
-usersRouter.post("/logout", logout);
-usersRouter.get("/current", current);
+usersRouter.post("/logout", validateToken, logout);
+usersRouter.get("/current", validateToken, current);
 
-usersRouter.get("/avatars", getAvatar);
-usersRouter.patch("/", updSubscription);
+usersRouter.get("/avatars", validateToken, getAvatar);
+usersRouter.patch("/", validateToken, updSubscription);
 usersRouter.patch(
   "/avatars",
   uploadAvatarMiddleware.single("avatar"),
   optimizeAvatarMiddleware,
+  validateToken,
   updateAvatar
 );
 export default usersRouter;
