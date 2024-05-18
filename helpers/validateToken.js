@@ -22,6 +22,7 @@ export const validateToken = (req, res, next) => {
         id: user._id,
         email: user.email,
         subscription: user.subscription,
+        avatarURL: user.avatarURL,
       };
       next();
     } catch (error) {

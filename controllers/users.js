@@ -69,10 +69,9 @@ const logout = async (req, res, next) => {
 
 const current = async (req, res, next) => {
   try {
-    const user = await User.findById(req.user.id);
     res.status(200).json({
-      email: user.email,
-      subscription: user.subscription,
+      email: req.user.email,
+      subscription: req.user.subscription,
     });
   } catch (error) {
     next(error);
@@ -95,10 +94,9 @@ const updSubscription = async (req, res, next) => {
 
 const getAvatar = async (req, res, next) => {
   try {
-    const user = await User.findById(req.user.id);
-    if (!user.avatarURL) throw HttpError(404, "Avatar not found");
+    if (!req.user.avatarURL) throw HttpError(404, "Avatar not found");
 
-    res.sendFile(path.resolve("public/avatars", user.avatarURL));
+    res.sendFile(path.resolve("public/avatars", req.user.avatarURL));
   } catch (error) {
     next(error);
   }
