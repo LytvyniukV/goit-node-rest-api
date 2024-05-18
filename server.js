@@ -8,11 +8,17 @@ const uriDb = process.env.DB_HOST;
 const connection = mongoose.connect(uriDb);
 connection
   .then(() => {
-    app.listen(PORT, function () {
-      console.log("Database connection successful");
+    console.log("Database connection successful");
+    app.listen(PORT, (err) => {
+      if (err) {
+        console.log("Server was not run because of err", err);
+        process.exit(1);
+      }
+
+      console.log(`Server was started at port ${PORT}`);
     });
   })
   .catch((err) => {
-    console.log(`Server not running. Error message: ${err.message}`);
+    console.log(`Database not running. Error message: ${err.message}`);
     process.exit(1);
   });
