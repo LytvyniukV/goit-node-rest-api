@@ -6,3 +6,7 @@ export const authSchema = Joi.object({
     .required(),
   password: Joi.string().pattern(new RegExp("^[a-zA-Z0-9]{6,30}$")).required(),
 });
+
+export const updateUserSubscriptionSchema = Joi.object({
+  subscription: Joi.string().required(),
+});

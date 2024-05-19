@@ -1,35 +1,46 @@
 import {
   optimizeAvatarMiddleware,
   uploadAvatarMiddleware,
-} from "../helpers/avatar.js";
-import {
-  getAvatar,
-  updSubscription,
-  updateAvatar,
-  current,
-  login,
-  logout,
-  register,
-} from "../controllers/users.js";
+} from "../middlewares/avatar.js";
+import controllers from "../controllers/users.js";
 import express from "express";
-
-import validateBody from "../helpers/validateBody.js";
-import { authSchema } from "../schemas/users.js";
-import { validateToken } from "../helpers/validateToken.js";
+import wrapper from "../helpers/wrapper.js";
+import validator from "../middlewares/validation.js";
+import { authSchema, updateUserSubscriptionSchema } from "../schemas/users.js";
+import { validateToken } from "../middlewares/validateToken.js";
 
 const usersRouter = express.Router();
-usersRouter.post("/register", validateBody(authSchema), register);
-usersRouter.post("/login", validateBody(authSchema), login);
-usersRouter.post("/logout", validateToken, logout);
-usersRouter.get("/current", validateToken, current);
 
-usersRouter.get("/avatars", validateToken, getAvatar);
-usersRouter.patch("/", validateToken, updSubscription);
+usersRouter.post(
+  "/register",
+  validator.body(authSchema),
+  wrapper(controllers.register)
+);
+
+usersRouter.post(
+  "/login",
+  validator.body(authSchema),
+  wrapper(controllers.login)
+);
+
+usersRouter.post("/logout", validateToken, wrapper(controllers.logout));
+
+usersRouter.get("/current", validateToken, wrapper(controllers.current));
+
+usersRouter.get("/avatars", validateToken, wrapper(controllers.getAvatar));
+
+usersRouter.patch(
+  "/",
+  validateToken,
+  validator.body(updateUserSubscriptionSchema),
+  wrapper(controllers.updSubscription)
+);
+
 usersRouter.patch(
   "/avatars",
   uploadAvatarMiddleware.single("avatar"),
   optimizeAvatarMiddleware,
   validateToken,
-  updateAvatar
+  wrapper(controllers.updateAvatar)
 );
 export default usersRouter;

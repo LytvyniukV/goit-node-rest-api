@@ -10,7 +10,7 @@ app.use(logger("dev"));
 app.use(cors());
 app.use(express.json());
 
-app.use("/avatars", express.static(path.resolve("public/avatars")));
+app.use("/api/avatars", express.static(path.resolve("public/avatars")));
 app.use("/api", router);
 
 app.use((_, res) => {
