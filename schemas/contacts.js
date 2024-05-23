@@ -1,4 +1,7 @@
 import Joi from "joi";
+import objectId from "joi-objectid";
+
+Joi.objectId = objectId(Joi);
 
 export const createContactSchema = Joi.object({
   name: Joi.string().required().min(3),
@@ -19,4 +22,8 @@ export const updateContactSchema = Joi.object({
 
 export const updateFavoriteContactSchema = Joi.object({
   favorite: Joi.boolean().required(),
+});
+
+export const contactIdSchema = Joi.object({
+  id: Joi.objectId().required(),
 });

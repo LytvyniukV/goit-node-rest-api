@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import HttpError from "./HttpError.js";
+import HttpError from "../helpers/HttpError.js";
 import { User } from "../models/user.js";
 
 export const validateToken = (req, res, next) => {
@@ -22,6 +22,7 @@ export const validateToken = (req, res, next) => {
         id: user._id,
         email: user.email,
         subscription: user.subscription,
+        avatarURL: user.avatarURL,
       };
       next();
     } catch (error) {

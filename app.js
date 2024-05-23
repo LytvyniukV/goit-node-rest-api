@@ -1,19 +1,17 @@
 import express from "express";
 import logger from "morgan";
 import cors from "cors";
-import mongoose from "mongoose";
-import dotenv from "dotenv";
-import router from "./routes/index.js";
 
-dotenv.config();
-const PORT = process.env.PORT || 3000;
-const uriDb = process.env.DB_HOST;
+import router from "./routes/index.js";
+import path from "node:path";
+
 const app = express();
 app.use(logger("dev"));
 app.use(cors());
 app.use(express.json());
 
-app.use("/", router);
+app.use("/api/avatars", express.static(path.resolve("public/avatars")));
+app.use("/api", router);
 
 app.use((_, res) => {
   res.status(404).json({ message: "Route not found" });
@@ -25,14 +23,4 @@ app.use((err, req, res, next) => {
   next();
 });
 
-const connection = mongoose.connect(uriDb);
-connection
-  .then(() => {
-    app.listen(PORT, function () {
-      console.log("Database connection successful");
-    });
-  })
-  .catch((err) => {
-    console.log(`Server not running. Error message: ${err.message}`);
-    process.exit(1);
-  });
+export { app };

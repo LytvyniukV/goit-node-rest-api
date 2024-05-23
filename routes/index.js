@@ -1,11 +1,10 @@
 import express from "express";
-import authRouter from "./auth.js";
 import contactsRouter from "./contacts.js";
-import { validateToken } from "../helpers/validateToken.js";
+import usersRouter from "./users.js";
+import { validateToken } from "../middlewares/validateToken.js";
 
 const router = express.Router();
 
-router.use("/users", authRouter);
-router.use("/api/contacts", validateToken, contactsRouter);
-
+router.use("/contacts", validateToken, contactsRouter);
+router.use("/users", usersRouter);
 export default router;
