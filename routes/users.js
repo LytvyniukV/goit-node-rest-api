@@ -6,7 +6,11 @@ import controllers from "../controllers/users.js";
 import express from "express";
 import wrapper from "../helpers/wrapper.js";
 import validator from "../middlewares/validation.js";
-import { authSchema, updateUserSubscriptionSchema } from "../schemas/users.js";
+import {
+  authSchema,
+  emailVerifySchema,
+  updateUserSubscriptionSchema,
+} from "../schemas/users.js";
 import { validateToken } from "../middlewares/validateToken.js";
 
 const usersRouter = express.Router();
@@ -42,5 +46,12 @@ usersRouter.patch(
   optimizeAvatarMiddleware,
   validateToken,
   wrapper(controllers.updateAvatar)
+);
+
+usersRouter.get("/verify/:verificationToken", wrapper(controllers.verify));
+usersRouter.post(
+  "/verify",
+  validator.body(emailVerifySchema),
+  wrapper(controllers.extraVerify)
 );
 export default usersRouter;

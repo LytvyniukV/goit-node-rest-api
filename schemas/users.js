@@ -10,3 +10,9 @@ export const authSchema = Joi.object({
 export const updateUserSubscriptionSchema = Joi.object({
   subscription: Joi.string().required(),
 });
+
+export const emailVerifySchema = Joi.object({
+  email: Joi.string()
+    .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
+    .required(),
+});

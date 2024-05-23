@@ -63,6 +63,18 @@ const updateAvatar = async (req, res) => {
     },
   });
 };
+
+const verify = async (req, res) => {
+  await services.verify(req.params.verificationToken);
+
+  res.status(200).send({ message: "Verification successfully" });
+};
+
+const extraVerify = async (req, res) => {
+  await services.extraVerify(req.body);
+
+  res.status(200).send({ message: "Verification email sent" });
+};
 export default {
   register,
   login,
@@ -71,4 +83,6 @@ export default {
   updSubscription,
   getAvatar,
   updateAvatar,
+  verify,
+  extraVerify,
 };
