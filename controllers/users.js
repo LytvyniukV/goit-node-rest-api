@@ -1,6 +1,7 @@
 import HttpError from "../helpers/HttpError.js";
 import path from "node:path";
 import services from "../services/users.js";
+import { generateAuthUrl } from "../utils/googleOAuth2.js";
 const register = async (req, res) => {
   const user = await services.register(req.body);
 
@@ -63,6 +64,27 @@ const updateAvatar = async (req, res) => {
     },
   });
 };
+
+const getGoogleOAuthUrl = async (req, res) => {
+  const url = generateAuthUrl();
+  res.status(200).json({
+    message: "Successfully get Google OAuth url!",
+    data: {
+      url,
+    },
+  });
+};
+
+const loginWithGoogleController = async (req, res) => {
+  const user = await services.loginOrSignupWithGoogle(req.body.code);
+
+  res.status(200).json({
+    message: "Successfully logged in via Google OAuth!",
+    data: {
+      user,
+    },
+  });
+};
 export default {
   register,
   login,
@@ -71,4 +93,6 @@ export default {
   updSubscription,
   getAvatar,
   updateAvatar,
+  getGoogleOAuthUrl,
+  loginWithGoogleController,
 };

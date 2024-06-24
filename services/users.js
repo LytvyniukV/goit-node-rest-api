@@ -5,6 +5,10 @@ import HttpError from "../helpers/HttpError.js";
 import gravatar from "gravatar";
 import path from "node:path";
 import fs from "node:fs/promises";
+import {
+  getFullNameFromGoogleTokenPayload,
+  validateCode,
+} from "../utils/googleOAuth2.js";
 
 const register = async (body) => {
   const { email, password } = body;
@@ -70,4 +74,33 @@ const updateAvatar = async (id, avatarFile) => {
   );
   return user;
 };
-export default { register, login, logout, updSubscription, updateAvatar };
+
+const loginOrSignupWithGoogle = async (code) => {
+  const loginTicket = await validateCode(code);
+  const payload = loginTicket.getPayload();
+  if (!payload) throw HttpError(401);
+
+  let user = await User.findOne({ email: payload.email });
+  if (!user) {
+    const password = await bcrypt.hash(randomBytes(10), 10);
+    const token = jwt.sign({ id: findUser._id }, process.env.SECRET_KEY, {
+      expiresIn: "3h",
+    });
+    user = await User.create({
+      email: payload.email,
+      name: getFullNameFromGoogleTokenPayload(payload),
+      password,
+      token,
+    });
+  }
+
+  return user;
+};
+export default {
+  register,
+  login,
+  logout,
+  updSubscription,
+  updateAvatar,
+  loginOrSignupWithGoogle,
+};

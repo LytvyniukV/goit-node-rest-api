@@ -10,3 +10,7 @@ export const authSchema = Joi.object({
 export const updateUserSubscriptionSchema = Joi.object({
   subscription: Joi.string().required(),
 });
+
+export const loginWithGoogleOAuthSchema = Joi.object({
+  code: Joi.string().required(),
+});

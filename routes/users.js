@@ -6,7 +6,11 @@ import controllers from "../controllers/users.js";
 import express from "express";
 import wrapper from "../helpers/wrapper.js";
 import validator from "../middlewares/validation.js";
-import { authSchema, updateUserSubscriptionSchema } from "../schemas/users.js";
+import {
+  authSchema,
+  loginWithGoogleOAuthSchema,
+  updateUserSubscriptionSchema,
+} from "../schemas/users.js";
 import { validateToken } from "../middlewares/validateToken.js";
 
 const usersRouter = express.Router();
@@ -42,5 +46,14 @@ usersRouter.patch(
   optimizeAvatarMiddleware,
   validateToken,
   wrapper(controllers.updateAvatar)
+);
+
+usersRouter.get("/get-oauth-url", wrapper(controllers.getGoogleOAuthUrl));
+
+usersRouter.post(
+  "/confirm-google-auth",
+  validateToken,
+  validator.body(loginWithGoogleOAuthSchema),
+  wrapper(controllers.loginWithGoogleController)
 );
 export default usersRouter;
