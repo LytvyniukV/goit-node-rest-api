@@ -1,7 +1,7 @@
 import HttpError from "../helpers/HttpError.js";
 import path from "node:path";
 import services from "../services/users.js";
-import { generateAuthUrl } from "../utils/googleOAuth2.js";
+import { generateAuthUrl } from "../../utils/googleOAuth2.js";
 const register = async (req, res) => {
   const user = await services.register(req.body);
 

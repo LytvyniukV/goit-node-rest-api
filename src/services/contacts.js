@@ -1,33 +1,36 @@
+import { calculatePaginationData } from "../../utils/calculatePaginationData.js";
+import { parsePaginationParams } from "../../utils/parsePaginationParams.js";
+import { parseSortParams } from "../../utils/parseSortParams.js";
 import HttpError from "../helpers/HttpError.js";
 import { Contact } from "../models/contacts.js";
 
-const getAll = async (userId, queryParams) => {
-  const favorite = queryParams.favorite;
+const getAll = async (userId, query) => {
+  const favorite = query.favorite;
+  const { page, perPage } = parsePaginationParams(query);
+  const { sortBy, sortOrder } = parseSortParams(query);
+  const skip = (page - 1) * perPage;
 
-  const options = {
-    page: queryParams.page || 1,
-    limit: queryParams.limit || 3,
-  };
+  const contactsQuery = Contact.find({ owner: userId });
 
   if (favorite) {
-    const contacts = await Contact.paginate(
-      {
-        owner: userId,
-        favorite: favorite,
-      },
-      options
-    );
-    return contacts;
+    contactsQuery.where("favorite").equals(favorite);
   }
+  const contactsCount = await Contact.find()
+    .merge(contactsQuery)
+    .countDocuments();
 
-  const contacts = await Contact.paginate(
-    {
-      owner: userId,
-    },
-    options
-  );
+  const contacts = await contactsQuery
+    .skip(skip)
+    .limit(perPage)
+    .sort({ [sortBy]: sortOrder })
+    .exec();
 
-  return contacts;
+  const paginationData = calculatePaginationData(contactsCount, perPage, page);
+
+  return {
+    data: contacts,
+    ...paginationData,
+  };
 };
 
 const getById = async (id, ownerId) => {
@@ -45,12 +48,13 @@ const deleteById = async (id, ownerId) => {
 };
 
 const create = async (userId, body) => {
-  const { name, email, phone } = body;
+  const { name, email, phone, favorite } = body;
   const contact = {
     name,
     email,
     phone,
     owner: userId,
+    favorite: favorite || false,
   };
   const newContact = await Contact.create(contact);
 

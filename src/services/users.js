@@ -8,7 +8,7 @@ import fs from "node:fs/promises";
 import {
   getFullNameFromGoogleTokenPayload,
   validateCode,
-} from "../utils/googleOAuth2.js";
+} from "../../utils/googleOAuth2.js";
 
 const register = async (body) => {
   const { email, password } = body;

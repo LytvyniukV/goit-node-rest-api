@@ -3,7 +3,7 @@ import path from "node:path";
 import { readFile } from "fs/promises";
 
 import dotenv from "dotenv";
-import HttpError from "../helpers/HttpError.js";
+import HttpError from "../src/helpers/HttpError.js";
 dotenv.config();
 
 const PATH_JSON = path.join(process.cwd(), "google-oauth.json");

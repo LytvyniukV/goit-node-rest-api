@@ -20,4 +20,4 @@ properties:
   email:
     description: "Contact's age"
     type: string
-    enum: "example@gmail.com"
+    example: "example@gmail.com"

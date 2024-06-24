@@ -9,6 +9,7 @@ export const createContactSchema = Joi.object({
     .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
     .required(),
   phone: Joi.number().required().min(12),
+  favorite: Joi.boolean(),
 });
 
 export const updateContactSchema = Joi.object({
