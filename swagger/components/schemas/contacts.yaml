@@ -18,6 +18,6 @@ properties:
     type: number
     example: 1212312412
   email:
-    description: "Contact's age"
+    description: "Contact's email"
     type: string
     example: "example@gmail.com"
