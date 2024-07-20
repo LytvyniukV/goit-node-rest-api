@@ -66,8 +66,8 @@ const updateAvatar = async (req, res) => {
 
 const verify = async (req, res) => {
   await services.verify(req.params.verificationToken);
-
-  res.status(200).send({ message: "Verification successfully" });
+  res.redirect("https://aqua-track.vercel.app/signin");
+  // res.status(200).send({ message: "Verification successfully" });
 };
 
 const extraVerify = async (req, res) => {
